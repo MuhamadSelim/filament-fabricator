@@ -2,13 +2,16 @@
 
 namespace Z3d0X\FilamentFabricator\Resources;
 
+use App\Models\Page;
 use Closure;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -21,11 +24,12 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Z3d0X\FilamentFabricator\Facades\FilamentFabricator;
-use Z3d0X\FilamentFabricator\Models\Page;
 use Z3d0X\FilamentFabricator\Resources\PageResource\Pages;
 
 class PageResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
@@ -49,7 +53,7 @@ class PageResource extends Resource
                     ->schema([
                         TextInput::make('title')
                             ->afterStateUpdated(function (Closure $get, Closure $set, ?string $state, ?Model $record) {
-                                if (! $get('is_slug_changed_manually') && filled($state) && blank($record)) {
+                                if (!$get('is_slug_changed_manually') && filled($state) && blank($record)) {
                                     $set('slug', Str::slug($state));
                                 }
                             })
@@ -99,13 +103,18 @@ class PageResource extends Resource
                 ViewAction::make(),
                 EditAction::make(),
                 Action::make('visit')
-                    ->url(fn (Page $record) => '/' . $record->slug)
+                    ->url(fn(Page $record) => config('filament-fabricator.routing.prefix') . '/' . $record->slug)
                     ->icon('heroicon-o-external-link')
                     ->openUrlInNewTab()
                     ->color('success')
                     ->visible(config('filament-fabricator.routing.enabled')),
             ])
             ->bulkActions([]);
+    }
+
+    public static function getTranslatableLocales(): array
+    {
+        return ['en', 'ar'];
     }
 
     public static function getPages(): array
