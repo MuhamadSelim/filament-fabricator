@@ -8,7 +8,6 @@ use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Concerns\Translatable;
@@ -112,10 +111,6 @@ class PageResource extends Resource
             ->bulkActions([]);
     }
 
-    public static function getTranslatableLocales(): array
-    {
-        return ['en', 'ar'];
-    }
 
     public static function getPages(): array
     {
