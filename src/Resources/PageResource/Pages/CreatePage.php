@@ -9,15 +9,7 @@ use Z3d0X\FilamentFabricator\Resources\PageResource;
 
 class CreatePage extends CreateRecord
 {
-    use Translatable;
 
     protected static string $resource = PageResource::class;
-
-    protected function getActions(): array
-    {
-        return [
-            LocaleSwitcher::make(),
-            // ...
-        ];
-    }
+    
 }

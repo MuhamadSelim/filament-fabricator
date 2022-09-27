@@ -12,14 +12,12 @@ use Z3d0X\FilamentFabricator\Resources\PageResource;
 
 class EditPage extends EditRecord
 {
-    use Translatable;
 
     protected static string $resource = PageResource::class;
 
     protected function getActions(): array
     {
         return [
-            LocaleSwitcher::make(),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
             Action::make('visit')

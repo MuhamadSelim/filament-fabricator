@@ -27,7 +27,6 @@ use Z3d0X\FilamentFabricator\Resources\PageResource\Pages;
 
 class PageResource extends Resource
 {
-    use Translatable;
 
     protected static ?string $model = Page::class;
 
@@ -74,6 +73,10 @@ class PageResource extends Resource
                             ->options(FilamentFabricator::getLayouts())
                             ->default('default')
                             ->required(),
+                        Select::make('locale')
+                            ->options(collect(config('laravellocalization.supportedLocales'))->mapWithKeys(fn($item, $key) => [$key => $item['name']])->all())
+                            ->default('ar')
+                            ->required(),
                     ]),
             ]);
     }
@@ -89,7 +92,7 @@ class PageResource extends Resource
                 TextColumn::make('slug')
                     ->searchable()
                     ->sortable(),
-
+                TextColumn::make('locale'),
                 BadgeColumn::make('layout')
                     ->sortable()
                     ->enum(FilamentFabricator::getLayouts()),
@@ -97,6 +100,8 @@ class PageResource extends Resource
             ->filters([
                 SelectFilter::make('layout')
                     ->options(FilamentFabricator::getLayouts()),
+                SelectFilter::make('locale')
+                    ->options(collect(config('laravellocalization.supportedLocales'))->mapWithKeys(fn($item, $key) => [$key => $item['name']])->all()),
             ])
             ->actions([
                 ViewAction::make(),

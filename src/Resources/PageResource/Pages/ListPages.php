@@ -10,7 +10,6 @@ use Z3d0X\FilamentFabricator\Resources\PageResource;
 
 class ListPages extends ListRecords
 {
-    use Translatable;
 
     protected static string $resource = PageResource::class;
 
@@ -18,7 +17,6 @@ class ListPages extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
-            LocaleSwitcher::make(),
         ];
     }
 }
