@@ -9,12 +9,15 @@ use Z3d0X\FilamentFabricator\Resources\PageResource;
 
 class ViewPage extends ViewRecord
 {
+    use ViewRecord\Concerns\Translatable;
+
     protected static string $resource = PageResource::class;
 
     protected function getActions(): array
     {
         return [
             Actions\EditAction::make(),
+            Actions\LocaleSwitcher::make(),
             Action::make('visit')
                 ->label(__('filament-fabricator::page-resource.actions.visit'))
                 ->url(config('filament-fabricator.routing.prefix') . '/' . $this->record->slug)
