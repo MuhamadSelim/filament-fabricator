@@ -7,6 +7,7 @@ use Filament\Pages\Actions;
 use Filament\Pages\Actions\Action;
 use Filament\Pages\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\EditRecord;
+use Z3d0X\FilamentFabricator\Facades\FilamentFabricator;
 use Illuminate\Database\Eloquent\Model;
 use Z3d0X\FilamentFabricator\Resources\PageResource;
 
@@ -24,14 +25,14 @@ class EditPage extends EditRecord
             LocaleSwitcher::make(),
             Action::make('visit')
                 ->label(__('filament-fabricator::page-resource.actions.visit'))
-                ->url(config('filament-fabricator.routing.prefix') . '/' . $this->record->slug)
+                ->url(fn () => config('filament-fabricator.routing.prefix') . FilamentFabricator::getPageUrlFromId($this->record->id, true))
                 ->icon('heroicon-o-external-link')
                 ->openUrlInNewTab()
                 ->color('success')
                 ->visible(config('filament-fabricator.routing.enabled')),
         ];
     }
-    
+
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         $record->setLocale($this->activeFormLocale)->fill(Arr::except($data, 'blocks'))->save();

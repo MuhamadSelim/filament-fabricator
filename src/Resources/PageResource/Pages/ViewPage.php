@@ -5,6 +5,7 @@ namespace Z3d0X\FilamentFabricator\Resources\PageResource\Pages;
 use Filament\Pages\Actions;
 use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\ViewRecord;
+use Z3d0X\FilamentFabricator\Facades\FilamentFabricator;
 use Z3d0X\FilamentFabricator\Resources\PageResource;
 
 class ViewPage extends ViewRecord
@@ -20,7 +21,7 @@ class ViewPage extends ViewRecord
             Actions\LocaleSwitcher::make(),
             Action::make('visit')
                 ->label(__('filament-fabricator::page-resource.actions.visit'))
-                ->url(config('filament-fabricator.routing.prefix') . '/' . $this->record->slug)
+                ->url(fn () => config('filament-fabricator.routing.prefix') . FilamentFabricator::getPageUrlFromId($this->record->id, true))
                 ->icon('heroicon-o-external-link')
                 ->openUrlInNewTab()
                 ->color('success')
